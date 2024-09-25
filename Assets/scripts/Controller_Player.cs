@@ -19,7 +19,7 @@ public class Controller_Player : MonoBehaviour
     internal bool doubleShoot;
     internal bool missiles;
     internal float missileCount;
-    internal float shootingCount=0;
+    internal float shootingCount=10;
     internal bool forceField;
     internal bool laserOn;
 
@@ -74,6 +74,7 @@ public class Controller_Player : MonoBehaviour
     {
         CheckForceField();
         ActionInput();
+        Restart();
     }
 
     private void CheckForceField()
@@ -97,7 +98,7 @@ public class Controller_Player : MonoBehaviour
     {
         missileCount -= Time.deltaTime;
         shootingCount -= Time.deltaTime;
-        if (Input.GetKey(KeyCode.O) && shootingCount < 0)
+        if (Input.GetKey(KeyCode.Space) && shootingCount < 0)
         {
             if (OnShooting != null)
             {
@@ -117,7 +118,7 @@ public class Controller_Player : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(speed* inputX,speed * inputY);
+        Vector3 movement = new Vector3(speed* inputX,speed*inputY);
         rb.velocity = movement;
         if (Input.GetKey(KeyCode.W))
         {
@@ -126,6 +127,13 @@ public class Controller_Player : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             lastKeyUp = false;
+        }
+    }
+    private void Restart()
+    {
+        if(Input.GetKey("r"))
+        {
+            rb.position = new Vector3(0, 0, 0);
         }
     }
 
