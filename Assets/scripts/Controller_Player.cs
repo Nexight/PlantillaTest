@@ -6,6 +6,7 @@ using UnityEngine;
 public class Controller_Player : MonoBehaviour
 {
     public float speed = 5;
+    public int vida = 100;
 
     private Rigidbody rb;
 
@@ -14,7 +15,6 @@ public class Controller_Player : MonoBehaviour
     public GameObject missileProjectile;
     public GameObject laserProjectile;
     public GameObject option;
-    public int powerUpCount=0;
 
     internal bool doubleShoot;
     internal bool missiles;
@@ -62,7 +62,6 @@ public class Controller_Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         render = GetComponent<Renderer>();
-        powerUpCount = 0;
         doubleShoot = false;
         missiles = false;
         laserOn = false;
@@ -134,6 +133,14 @@ public class Controller_Player : MonoBehaviour
         if(Input.GetKey("r"))
         {
             rb.position = new Vector3(0, 0, 0);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("moneda"))
+        {
+            speed += 5;
         }
     }
 
