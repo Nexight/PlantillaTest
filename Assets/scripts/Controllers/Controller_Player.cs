@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller_Player : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Controller_Player : MonoBehaviour
     public int vida = 100;
 
     private Rigidbody rb;
+
+    public Text vidaText;
 
     public GameObject projectile;
     public GameObject doubleProjectile;
@@ -61,6 +64,8 @@ public class Controller_Player : MonoBehaviour
 
     private void Start()
     {
+        DisplayVida();
+
         rb = GetComponent<Rigidbody>();
         render = GetComponent<Renderer>();
         doubleShoot = false;
@@ -76,6 +81,7 @@ public class Controller_Player : MonoBehaviour
         ActionInput();
         Restart();
         VidaCheck();
+        DisplayVida();
     }
 
     private void CheckForceField()
@@ -150,6 +156,8 @@ public class Controller_Player : MonoBehaviour
         {
             vida -= 25;
         }
+
+        DisplayVida();
     }
 
     private void VidaCheck()
@@ -159,5 +167,17 @@ public class Controller_Player : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void DisplayVida()
+    {
+        vidaText.text = "Vida: " + vida.ToString();
+    }
+
+   /* private void vidaTextUpdate()
+    {
+
+        vidaText.text = "vida: " + vida.ToString();
+
+    }*/
 
 }
