@@ -6,6 +6,7 @@ using UnityEngine;
 public class Controller_Player : MonoBehaviour
 {
     public float speed = 5;
+    public float speedBase = 5;
     public int vida = 100;
 
     private Rigidbody rb;
@@ -74,6 +75,7 @@ public class Controller_Player : MonoBehaviour
         CheckForceField();
         ActionInput();
         Restart();
+        VidaCheck();
     }
 
     private void CheckForceField()
@@ -133,6 +135,7 @@ public class Controller_Player : MonoBehaviour
         if(Input.GetKey("r"))
         {
             rb.position = new Vector3(0, 0, 0);
+            speed = speedBase;
         }
     }
 
@@ -141,6 +144,19 @@ public class Controller_Player : MonoBehaviour
         if(other.CompareTag("moneda"))
         {
             speed += 5;
+        }
+
+        if(other.CompareTag("Enemigo"))
+        {
+            vida -= 25;
+        }
+    }
+
+    private void VidaCheck()
+    {
+        if(vida <=0)
+        {
+            Destroy(gameObject);
         }
     }
 

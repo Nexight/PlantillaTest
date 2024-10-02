@@ -5,35 +5,53 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public float lookRadius = 5f;
 
-    Transform target;
-    NavMeshAgent agent;
+    public Transform Player;
 
+    float lookRadius;
+
+    int MoveSpeed = 4;
+    int MaxDist = 10;
+    int MinDist = 0;
+    public int vida { get; private set; }
+
+    private void Awake()
+    {
+        lookRadius = MaxDist;
+    }
     void Start()
     {
-        target = PlayerManager.instance.player.transform;
-        agent = GetComponent<NavMeshAgent>();
+        vida = 100;   
     }
 
-    void Update()
+    public void Update()
     {
+        transform.LookAt(Player);
 
-        float distancia = Vector3.Distance(target.position, transform.position);
-
-        if(distancia<=lookRadius)
+        if (Vector3.Distance(transform.position, Player.position) >= MinDist)
         {
-            agent.SetDestination(target.position);
+
+            transform.position += transform.forward * MoveSpeed * Time.deltaTime;
+
+            if (Vector3.Distance(transform.position, Player.position) <= MaxDist)
+            {
+                
+            }
+
         }
 
+        VidaCheck();
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if(collision.collider.CompareTag("Player"))
+        if(collider.CompareTag("Player"))
         {
             Destroy(gameObject);
-                   
+        }
+        
+        if(collider.CompareTag("Proyectil"))
+        {
+            vida -= 25;
         }
     }
 
@@ -42,4 +60,13 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
+    
+    void VidaCheck()
+    {
+        if (vida<=0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
